@@ -10,6 +10,7 @@
 use ComBank\Bank\BankAccount;
 use PHPUnit\Framework\TestCase;
 use ComBank\Transactions\DepositTransaction;
+use ComBank\Transactions\BaseTransaction;
 use ComBank\Exceptions\ZeroAmountException;
 
 class DepositTransactionTest extends TestCase
@@ -52,6 +53,14 @@ class DepositTransactionTest extends TestCase
     {
         $trans = new DepositTransaction(100.25);
         $this->assertEquals(100.25, $trans->getAmount());
+    }
+    /**
+     * @test
+     * */
+    public function testDepositTransactionExtendsBaseTransaction()
+    {
+        $trans = new DepositTransaction(50.0);
+        $this->assertInstanceOf(BaseTransaction::class, $trans);
     }
     /**
      * @return array;

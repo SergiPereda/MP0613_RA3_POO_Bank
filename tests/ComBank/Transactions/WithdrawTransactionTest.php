@@ -6,6 +6,7 @@ use ComBank\OverdraftStrategy\SilverOverdraft;
 use ComBank\Exceptions\BankAccountException;
 use ComBank\Bank\Contracts\BankAccountInterface;
 use ComBank\Transactions\WithdrawTransaction;
+use ComBank\Transactions\BaseTransaction;
 use ComBank\Exceptions\InvalidOverdraftFundsException;
 use ComBank\Exceptions\ZeroAmountException;
 
@@ -84,6 +85,14 @@ class WithdrawTransactionTest extends TestCase
     public function testGetAmount(){
         $trans = new WithdrawTransaction(100.25);
         $this->assertEquals(100.25,$trans->getAmount());
+    }
+    /**
+     * @test
+     * */
+    public function testWithdrawTransactionExtendsBaseTransaction()
+    {
+        $trans = new WithdrawTransaction(50.0);
+        $this->assertInstanceOf(BaseTransaction::class, $trans);
     }
     /**
      * @return array;

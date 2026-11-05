@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use ComBank\Bank\BankAccount;
 use ComBank\OverdraftStrategy\SilverOverdraft;
 use ComBank\Exceptions\BankAccountException;
+use ComBank\Exceptions\ZeroAmountException;
 use ComBank\Exceptions\FailedTransactionException;
 use ComBank\Transactions\DepositTransaction;
 use ComBank\Transactions\WithdrawTransaction;
@@ -15,6 +16,20 @@ class BankAccountTest extends TestCase
     {
         $account = new BankAccount(100.0);
         $this->assertEqualsWithDelta(100.0, $account->getBalance(), 0.001);
+    }
+
+    // Test that AmountValidationTrait is used - zero amount throws exception
+    public function testBankAccountValidatesZeroAmountOnConstruction(): void
+    {
+        $this->expectException(ZeroAmountException::class);
+        new BankAccount(0.0);
+    }
+
+    // Test that AmountValidationTrait is used - negative amount throws exception
+    public function testBankAccountValidatesNegativeAmountOnConstruction(): void
+    {
+        $this->expectException(ZeroAmountException::class);
+        new BankAccount(-50.0);
     }
 
     // Test that a deposit transaction updates the balance correctly
